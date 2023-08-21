@@ -39,7 +39,7 @@ var (
 		dedent.Dedent(`
 {{- if .IsInitCluster -}}
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 etcd:
 {{- if .EtcdTypeIsKubeadm }}
@@ -107,7 +107,7 @@ scheduler:
 {{ toYaml .SchedulerArgs | indent 4 }}
 
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 localAPIEndpoint:
   advertiseAddress: {{ .AdvertiseAddress }}
@@ -129,7 +129,7 @@ kind: KubeletConfiguration
 
 {{- else -}}
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: JoinConfiguration
 discovery:
   bootstrapToken:
@@ -159,14 +159,10 @@ var (
 	// ref: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/
 	FeatureGatesDefaultConfiguration = map[string]bool{
 		"RotateKubeletServerCertificate": true, //k8s 1.7+
-		"TTLAfterFinished":               true, //k8s 1.12+
-		"ExpandCSIVolumes":               true, //k8s 1.14+
 		"CSIStorageCapacity":             true, //k8s 1.19+
 	}
 	FeatureGatesSecurityDefaultConfiguration = map[string]bool{
 		"RotateKubeletServerCertificate": true, //k8s 1.7+
-		"TTLAfterFinished":               true, //k8s 1.12+
-		"ExpandCSIVolumes":               true, //k8s 1.14+
 		"CSIStorageCapacity":             true, //k8s 1.19+
 		"SeccompDefault":                 true, //kubelet
 	}
